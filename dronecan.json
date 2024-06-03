@@ -1,0 +1,870 @@
+[
+    {
+        "default_dtid": 1,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.GetNodeInfo",
+        "request_fields": "[]",
+        "response_fields": "[uavcan.protocol.NodeStatus status, uavcan.protocol.SoftwareVersion software_version, uavcan.protocol.HardwareVersion hardware_version, uint8[<=80] name]"
+    },
+    {
+        "default_dtid": 1,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.protocol.dynamic_node_id.Allocation",
+        "fields": "[uint7 node_id, bool first_part_of_unique_id, uint8[<=16] unique_id]"
+    },
+    {
+        "default_dtid": 2,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.GetDataTypeInfo",
+        "request_fields": "[uint16 id, uavcan.protocol.DataTypeKind kind, uint8[<=80] name]",
+        "response_fields": "[uint64 signature, uint16 id, uavcan.protocol.DataTypeKind kind, uint8 flags, uint8[<=80] name]"
+    },
+    {
+        "default_dtid": 4,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.protocol.GlobalTimeSync",
+        "fields": "[uint56 previous_transmission_timestamp_usec]"
+    },
+    {
+        "default_dtid": 4,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.GetTransportStats",
+        "request_fields": "[]",
+        "response_fields": "[uint48 transfers_tx, uint48 transfers_rx, uint48 transfer_errors, uavcan.protocol.CANIfaceStats[<=3] can_iface_stats]"
+    },
+    {
+        "default_dtid": 5,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.RestartNode",
+        "request_fields": "[uint40 magic_number]",
+        "response_fields": "[bool ok]"
+    },
+    {
+        "default_dtid": 5,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.protocol.Panic",
+        "fields": "[uint8[<=7] reason_text]"
+    },
+    {
+        "default_dtid": 6,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.AccessCommandShell",
+        "request_fields": "[uint8 flags, uint8[<=128] input]",
+        "response_fields": "[int32 last_exit_status, uint8 flags, uint8[<=256] output]"
+    },
+    {
+        "default_dtid": 10,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.param.ExecuteOpcode",
+        "request_fields": "[uint8 opcode, int48 argument]",
+        "response_fields": "[int48 argument, bool ok]"
+    },
+    {
+        "default_dtid": 11,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.param.GetSet",
+        "request_fields": "[uint13 index, uavcan.protocol.param.Value value, uint8[<=92] name]",
+        "response_fields": "[void5, uavcan.protocol.param.Value value, void5, uavcan.protocol.param.Value default_value, void6, uavcan.protocol.param.NumericValue max_value, void6, uavcan.protocol.param.NumericValue min_value, uint8[<=92] name]"
+    },
+    {
+        "default_dtid": 15,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.enumeration.Begin",
+        "request_fields": "[uint16 timeout_sec, uint8[<=92] parameter_name]",
+        "response_fields": "[uint8 error]"
+    },
+    {
+        "default_dtid": 30,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.dynamic_node_id.server.AppendEntries",
+        "request_fields": "[uint32 term, uint32 prev_log_term, uint8 prev_log_index, uint8 leader_commit, uavcan.protocol.dynamic_node_id.server.Entry[<=1] entries]",
+        "response_fields": "[uint32 term, bool success]"
+    },
+    {
+        "default_dtid": 31,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.dynamic_node_id.server.RequestVote",
+        "request_fields": "[uint32 term, uint32 last_log_term, uint8 last_log_index]",
+        "response_fields": "[uint32 term, bool vote_granted]"
+    },
+    {
+        "default_dtid": 40,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.file.BeginFirmwareUpdate",
+        "request_fields": "[uint8 source_node_id, uavcan.protocol.file.Path image_file_remote_path]",
+        "response_fields": "[uint8 error, uint8[<=127] optional_error_message]"
+    },
+    {
+        "default_dtid": 45,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.file.GetInfo",
+        "request_fields": "[uavcan.protocol.file.Path path]",
+        "response_fields": "[uint40 size, uavcan.protocol.file.Error error, uavcan.protocol.file.EntryType entry_type]"
+    },
+    {
+        "default_dtid": 46,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.file.GetDirectoryEntryInfo",
+        "request_fields": "[uint32 entry_index, uavcan.protocol.file.Path directory_path]",
+        "response_fields": "[uavcan.protocol.file.Error error, uavcan.protocol.file.EntryType entry_type, uavcan.protocol.file.Path entry_full_path]"
+    },
+    {
+        "default_dtid": 47,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.file.Delete",
+        "request_fields": "[uavcan.protocol.file.Path path]",
+        "response_fields": "[uavcan.protocol.file.Error error]"
+    },
+    {
+        "default_dtid": 48,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.file.Read",
+        "request_fields": "[uint40 offset, uavcan.protocol.file.Path path]",
+        "response_fields": "[uavcan.protocol.file.Error error, uint8[<=256] data]"
+    },
+    {
+        "default_dtid": 49,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.protocol.file.Write",
+        "request_fields": "[uint40 offset, uavcan.protocol.file.Path path, uint8[<=192] data]",
+        "response_fields": "[uavcan.protocol.file.Error error]"
+    },
+    {
+        "default_dtid": 63,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "uavcan.tunnel.Call",
+        "request_fields": "[uavcan.tunnel.Protocol protocol, uint8 channel_id, uint8[<=60] buffer]",
+        "response_fields": "[uint8[<=60] buffer]"
+    },
+    {
+        "default_dtid": 64,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "dronecan.remoteid.SecureCommand",
+        "request_fields": "[uint32 sequence, uint32 operation, uint8 sig_length, uint8[<=220] data]",
+        "response_fields": "[uint32 sequence, uint32 operation, uint8 result, uint8[<=220] data]"
+    },
+    {
+        "default_dtid": 210,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "com.hobbywing.esc.SetID",
+        "request_fields": "[uint8 node_id, uint8 throttle_channel]",
+        "response_fields": "[uint8 node_id, uint8 throttle_channel]"
+    },
+    {
+        "default_dtid": 211,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "com.hobbywing.esc.SetBaud",
+        "request_fields": "[uint8 baud]",
+        "response_fields": "[]"
+    },
+    {
+        "default_dtid": 212,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "com.hobbywing.esc.SetLED",
+        "request_fields": "[uint8 option, uint8 color, uint8 blink]",
+        "response_fields": "[uint8 option, uint8 color, uint8 blink]"
+    },
+    {
+        "default_dtid": 213,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "com.hobbywing.esc.SetDirection",
+        "request_fields": "[uint8 direction]",
+        "response_fields": "[uint8 direction]"
+    },
+    {
+        "default_dtid": 214,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "com.hobbywing.esc.SetReportingFrequency",
+        "request_fields": "[uint8 option, uint16 MSG_ID, uint8 rate]",
+        "response_fields": "[uint8 option, uint16 MSG_ID, uint8 rate]"
+    },
+    {
+        "default_dtid": 215,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "com.hobbywing.esc.SetThrottleSource",
+        "request_fields": "[uint8 source]",
+        "response_fields": "[uint8 source]"
+    },
+    {
+        "default_dtid": 216,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "com.hobbywing.esc.SelfTest",
+        "request_fields": "[]",
+        "response_fields": "[uint8 status]"
+    },
+    {
+        "default_dtid": 217,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "com.hobbywing.esc.SetAngle",
+        "request_fields": "[uint8 option, uint16 angle]",
+        "response_fields": "[uint8 option, uint16[<=2] angle]"
+    },
+    {
+        "default_dtid": 241,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "com.hobbywing.esc.GetMaintenanceInformation",
+        "request_fields": "[uint8 option]",
+        "response_fields": "[uint32 total_rotation_time_min, uint24 time_since_maintainence_min]"
+    },
+    {
+        "default_dtid": 242,
+        "kind": 0,
+        "kind_str": "Service",
+        "full_name": "com.hobbywing.esc.GetMajorConfig",
+        "request_fields": "[uint8 option]",
+        "response_fields": "[bool direction, bool throttle_source, uint6 throttle_channel, uint5 led_status, uint3 led_color, uint4 MSG2_rate, uint4 MSG1_rate, uint16 positioning_angle, uint8[2] reserved]"
+    },
+    {
+        "default_dtid": 341,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.protocol.NodeStatus",
+        "fields": "[uint32 uptime_sec, uint2 health, uint3 mode, uint3 sub_mode, uint16 vendor_specific_status_code]"
+    },
+    {
+        "default_dtid": 342,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.protocol.Stats",
+        "fields": "[uint32 tx_frames, uint16 tx_errors, uint32 rx_frames, uint16 rx_error_oom, uint16 rx_error_internal, uint16 rx_error_missed_start, uint16 rx_error_wrong_toggle, uint16 rx_error_short_frame, uint16 rx_error_bad_crc, uint16 rx_ignored_wrong_address, uint16 rx_ignored_not_wanted, uint16 rx_ignored_unexpected_tid]"
+    },
+    {
+        "default_dtid": 343,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.protocol.CanStats",
+        "fields": "[uint8 interface, uint32 tx_requests, uint16 tx_rejected, uint16 tx_overflow, uint16 tx_success, uint16 tx_timedout, uint16 tx_abort, uint32 rx_received, uint16 rx_overflow, uint16 rx_errors, uint16 busoff_errors]"
+    },
+    {
+        "default_dtid": 380,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.protocol.enumeration.Indication",
+        "fields": "[void6, uavcan.protocol.param.NumericValue value, uint8[<=92] parameter_name]"
+    },
+    {
+        "default_dtid": 390,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.protocol.dynamic_node_id.server.Discovery",
+        "fields": "[uint8 configured_cluster_size, uint8[<=5] known_nodes]"
+    },
+    {
+        "default_dtid": 1000,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.ahrs.Solution",
+        "fields": "[uavcan.Timestamp timestamp, float16[4] orientation_xyzw, void4, float16[<=9] orientation_covariance, float16[3] angular_velocity, void4, float16[<=9] angular_velocity_covariance, float16[3] linear_acceleration, float16[<=9] linear_acceleration_covariance]"
+    },
+    {
+        "default_dtid": 1001,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.ahrs.MagneticFieldStrength",
+        "fields": "[float16[3] magnetic_field_ga, float16[<=9] magnetic_field_covariance]"
+    },
+    {
+        "default_dtid": 1002,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.ahrs.MagneticFieldStrength2",
+        "fields": "[uint8 sensor_id, float16[3] magnetic_field_ga, float16[<=9] magnetic_field_covariance]"
+    },
+    {
+        "default_dtid": 1003,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.ahrs.RawIMU",
+        "fields": "[uavcan.Timestamp timestamp, float32 integration_interval, float16[3] rate_gyro_latest, float32[3] rate_gyro_integral, float16[3] accelerometer_latest, float32[3] accelerometer_integral, float16[<=36] covariance]"
+    },
+    {
+        "default_dtid": 1010,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.actuator.ArrayCommand",
+        "fields": "[uavcan.equipment.actuator.Command[<=15] commands]"
+    },
+    {
+        "default_dtid": 1011,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.actuator.Status",
+        "fields": "[uint8 actuator_id, float16 position, float16 force, float16 speed, void1, uint7 power_rating_pct]"
+    },
+    {
+        "default_dtid": 1020,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.air_data.TrueAirspeed",
+        "fields": "[float16 true_airspeed, float16 true_airspeed_variance]"
+    },
+    {
+        "default_dtid": 1021,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.air_data.IndicatedAirspeed",
+        "fields": "[float16 indicated_airspeed, float16 indicated_airspeed_variance]"
+    },
+    {
+        "default_dtid": 1025,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.air_data.AngleOfAttack",
+        "fields": "[uint8 sensor_id, float16 aoa, float16 aoa_variance]"
+    },
+    {
+        "default_dtid": 1026,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.air_data.Sideslip",
+        "fields": "[float16 sideslip_angle, float16 sideslip_angle_variance]"
+    },
+    {
+        "default_dtid": 1027,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.air_data.RawAirData",
+        "fields": "[uint8 flags, float32 static_pressure, float32 differential_pressure, float16 static_pressure_sensor_temperature, float16 differential_pressure_sensor_temperature, float16 static_air_temperature, float16 pitot_temperature, float16[<=16] covariance]"
+    },
+    {
+        "default_dtid": 1028,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.air_data.StaticPressure",
+        "fields": "[float32 static_pressure, float16 static_pressure_variance]"
+    },
+    {
+        "default_dtid": 1029,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.air_data.StaticTemperature",
+        "fields": "[float16 static_temperature, float16 static_temperature_variance]"
+    },
+    {
+        "default_dtid": 1030,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.esc.RawCommand",
+        "fields": "[int14[<=20] cmd]"
+    },
+    {
+        "default_dtid": 1031,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.esc.RPMCommand",
+        "fields": "[int18[<=20] rpm]"
+    },
+    {
+        "default_dtid": 1032,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.sensors.hygrometer.Hygrometer",
+        "fields": "[float16 temperature, float16 humidity, uint8 id]"
+    },
+    {
+        "default_dtid": 1033,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.tmotor.esc.ParamCfg",
+        "fields": "[uint8 esc_index, uint32 esc_uuid, uint16 esc_id_set, uint16 esc_ov_threshold, uint16 esc_oc_threshold, uint16 esc_ot_threshold, uint16 esc_acc_threshold, uint16 esc_dacc_threshold, int16 esc_rotate_dir, uint8 esc_timing, uint8 esc_signal_priority, uint16 esc_led_mode, uint8 esc_can_rate, uint16 esc_fdb_rate, uint8 esc_save_option]"
+    },
+    {
+        "default_dtid": 1034,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.esc.Status",
+        "fields": "[uint32 error_count, float16 voltage, float16 current, float16 temperature, int18 rpm, uint7 power_rating_pct, uint5 esc_index]"
+    },
+    {
+        "default_dtid": 1035,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.tmotor.esc.FocCtrl",
+        "fields": "[uint8 esc_index, uint8 esc_mode, uint8 esc_fdb_rate, uint8 esc_cmd, int32 esc_cmd_val]"
+    },
+    {
+        "default_dtid": 1036,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.esc.StatusExtended",
+        "fields": "[uint7 input_pct, uint7 output_pct, int9 motor_temperature_degC, uint9 motor_angle, uint19 status_flags, uint5 esc_index]"
+    },
+    {
+        "default_dtid": 1038,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.tmotor.esc.PUSHSCI",
+        "fields": "[uint32 data_sequence, uint8[<=255] data]"
+    },
+    {
+        "default_dtid": 1039,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.tmotor.esc.PUSHCAN",
+        "fields": "[uint32 data_sequence, uint8[<=255] data]"
+    },
+    {
+        "default_dtid": 1040,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.camera_gimbal.AngularCommand",
+        "fields": "[uint8 gimbal_id, uavcan.equipment.camera_gimbal.Mode mode, float16[4] quaternion_xyzw]"
+    },
+    {
+        "default_dtid": 1041,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.camera_gimbal.GEOPOICommand",
+        "fields": "[uint8 gimbal_id, uavcan.equipment.camera_gimbal.Mode mode, int32 longitude_deg_1e7, int32 latitude_deg_1e7, int22 height_cm, uint2 height_reference]"
+    },
+    {
+        "default_dtid": 1043,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.sensors.magnetometer.MagneticFieldStrengthHiRes",
+        "fields": "[uint8 sensor_id, float32[3] magnetic_field_ga]"
+    },
+    {
+        "default_dtid": 1044,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.camera_gimbal.Status",
+        "fields": "[uint8 gimbal_id, uavcan.equipment.camera_gimbal.Mode mode, float16[4] camera_orientation_in_body_frame_xyzw, float16[<=9] camera_orientation_in_body_frame_covariance]"
+    },
+    {
+        "default_dtid": 1045,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.sensors.rpm.RPM",
+        "fields": "[uint8 sensor_id, uint16 flags, float32 rpm]"
+    },
+    {
+        "default_dtid": 1050,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.range_sensor.Measurement",
+        "fields": "[uavcan.Timestamp timestamp, uint8 sensor_id, uavcan.CoarseOrientation beam_orientation_in_body_frame, float16 field_of_view, uint5 sensor_type, uint3 reading_type, float16 range]"
+    },
+    {
+        "default_dtid": 1060,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.gnss.Fix",
+        "fields": "[uavcan.Timestamp timestamp, uavcan.Timestamp gnss_timestamp, uint3 gnss_time_standard, void5, uint8 num_leap_seconds, int37 longitude_deg_1e8, int37 latitude_deg_1e8, int27 height_ellipsoid_mm, int27 height_msl_mm, float16[3] ned_velocity, uint6 sats_used, uint2 status, float16 pdop, void4, float16[<=9] position_covariance, float16[<=9] velocity_covariance]"
+    },
+    {
+        "default_dtid": 1061,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.gnss.Auxiliary",
+        "fields": "[float16 gdop, float16 pdop, float16 hdop, float16 vdop, float16 tdop, float16 ndop, float16 edop, uint7 sats_visible, uint6 sats_used]"
+    },
+    {
+        "default_dtid": 1062,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.gnss.RTCMStream",
+        "fields": "[uint8 protocol_id, uint8[<=128] data]"
+    },
+    {
+        "default_dtid": 1063,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.gnss.Fix2",
+        "fields": "[uavcan.Timestamp timestamp, uavcan.Timestamp gnss_timestamp, uint3 gnss_time_standard, void13, uint8 num_leap_seconds, int37 longitude_deg_1e8, int37 latitude_deg_1e8, int27 height_ellipsoid_mm, int27 height_msl_mm, float32[3] ned_velocity, uint6 sats_used, uint2 status, uint4 mode, uint6 sub_mode, float16[<=36] covariance, float16 pdop, uavcan.equipment.gnss.ECEFPositionVelocity[<=1] ecef_position_velocity]"
+    },
+    {
+        "default_dtid": 1070,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.hardpoint.Command",
+        "fields": "[uint8 hardpoint_id, uint16 command]"
+    },
+    {
+        "default_dtid": 1071,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.hardpoint.Status",
+        "fields": "[uint8 hardpoint_id, float16 payload_weight, float16 payload_weight_variance, uint16 status]"
+    },
+    {
+        "default_dtid": 1080,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.indication.BeepCommand",
+        "fields": "[float16 frequency, float16 duration]"
+    },
+    {
+        "default_dtid": 1081,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.indication.LightsCommand",
+        "fields": "[uavcan.equipment.indication.SingleLightCommand[<=20] commands]"
+    },
+    {
+        "default_dtid": 1090,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.power.PrimaryPowerSupplyStatus",
+        "fields": "[float16 hours_to_empty_at_10sec_avg_power, float16 hours_to_empty_at_10sec_avg_power_variance, bool external_power_available, uint7 remaining_energy_pct, uint7 remaining_energy_pct_stdev]"
+    },
+    {
+        "default_dtid": 1091,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.power.CircuitStatus",
+        "fields": "[uint16 circuit_id, float16 voltage, float16 current, uint8 error_flags]"
+    },
+    {
+        "default_dtid": 1092,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.power.BatteryInfo",
+        "fields": "[float16 temperature, float16 voltage, float16 current, float16 average_power_10sec, float16 remaining_capacity_wh, float16 full_charge_capacity_wh, float16 hours_to_full_charge, uint11 status_flags, uint7 state_of_health_pct, uint7 state_of_charge_pct, uint7 state_of_charge_pct_stdev, uint8 battery_id, uint32 model_instance_id, uint8[<=31] model_name]"
+    },
+    {
+        "default_dtid": 1100,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.safety.ArmingStatus",
+        "fields": "[uint8 status]"
+    },
+    {
+        "default_dtid": 1110,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.device.Temperature",
+        "fields": "[uint16 device_id, float16 temperature, uint8 error_flags]"
+    },
+    {
+        "default_dtid": 1120,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.ice.reciprocating.Status",
+        "fields": "[uint2 state, uint30 flags, void16, uint7 engine_load_percent, uint17 engine_speed_rpm, float16 spark_dwell_time_ms, float16 atmospheric_pressure_kpa, float16 intake_manifold_pressure_kpa, float16 intake_manifold_temperature, float16 coolant_temperature, float16 oil_pressure, float16 oil_temperature, float16 fuel_pressure, float32 fuel_consumption_rate_cm3pm, float32 estimated_consumed_fuel_volume_cm3, uint7 throttle_position_percent, uint6 ecu_index, uint3 spark_plug_usage, uavcan.equipment.ice.reciprocating.CylinderStatus[<=16] cylinder_status]"
+    },
+    {
+        "default_dtid": 1129,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.equipment.ice.FuelTankStatus",
+        "fields": "[void9, uint7 available_fuel_volume_percent, float32 available_fuel_volume_cm3, float32 fuel_consumption_rate_cm3pm, float16 fuel_temperature, uint8 fuel_tank_id]"
+    },
+    {
+        "default_dtid": 1140,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.sensors.rc.RCInput",
+        "fields": "[uint16 status, uint8 quality, uint4 id, uint12[<=32] rcin]"
+    },
+    {
+        "default_dtid": 1332,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.tmotor.esc.ParamGet",
+        "fields": "[uint8 esc_index, uint32 esc_uuid, uint16 esc_id_req, uint16 esc_ov_threshold, uint16 esc_oc_threshold, uint16 esc_ot_threshold, uint16 esc_acc_threshold, uint16 esc_dacc_threshold, int16 esc_rotate_dir, uint8 esc_timing, uint16 esc_startup_times, uint32 esc_startup_duration, uint32 esc_product_date, uint32 esc_error_count, uint8 esc_signal_priority, uint16 esc_led_mode, uint8 esc_can_rate, uint16 esc_fdb_rate, uint8 esc_save_option, uint8[<=32] rsvd]"
+    },
+    {
+        "default_dtid": 2000,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.navigation.GlobalNavigationSolution",
+        "fields": "[uavcan.Timestamp timestamp, float64 longitude, float64 latitude, float32 height_ellipsoid, float32 height_msl, float32 height_agl, float32 height_baro, float16 qnh_hpa, float32[4] orientation_xyzw, float16[<=36] pose_covariance, float32[3] linear_velocity_body, float32[3] angular_velocity_body, float16[3] linear_acceleration_body, float16[<=36] velocity_covariance]"
+    },
+    {
+        "default_dtid": 2010,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.tunnel.Broadcast",
+        "fields": "[uavcan.tunnel.Protocol protocol, uint8 channel_id, uint8[<=60] buffer]"
+    },
+    {
+        "default_dtid": 2011,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.tunnel.SerialConfig",
+        "fields": "[uint8 channel_id, uint32 baud, uint24 options]"
+    },
+    {
+        "default_dtid": 2018,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.himark.servo.ServoCmd",
+        "fields": "[uint10[<=17] cmd]"
+    },
+    {
+        "default_dtid": 2019,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.himark.servo.ServoInfo",
+        "fields": "[uint5 servo_id, uint12 pwm_input, int16 pos_cmd, int16 pos_sensor, uint12 voltage, uint10 current, uint10 pcb_temp, uint10 motor_temp, uint5 error_status]"
+    },
+    {
+        "default_dtid": 3001,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.tunnel.Targetted",
+        "fields": "[uavcan.tunnel.Protocol protocol, uint7 target_node, int5 serial_id, uint4 options, uint24 baudrate, uint8[<=120] buffer]"
+    },
+    {
+        "default_dtid": 16370,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.protocol.debug.KeyValue",
+        "fields": "[float32 value, uint8[<=58] key]"
+    },
+    {
+        "default_dtid": 16383,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "uavcan.protocol.debug.LogMessage",
+        "fields": "[uavcan.protocol.debug.LogLevel level, uint8[<=31] source, uint8[<=90] text]"
+    },
+    {
+        "default_dtid": 20000,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.indication.SafetyState",
+        "fields": "[uint8 status]"
+    },
+    {
+        "default_dtid": 20001,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.indication.Button",
+        "fields": "[uint8 button, uint8 press_time]"
+    },
+    {
+        "default_dtid": 20002,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.gnss.Heading",
+        "fields": "[bool heading_valid, bool heading_accuracy_valid, float16 heading_rad, float16 heading_accuracy_rad]"
+    },
+    {
+        "default_dtid": 20003,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.gnss.Status",
+        "fields": "[uint32 error_codes, bool healthy, uint23 status]"
+    },
+    {
+        "default_dtid": 20004,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.equipment.power.BatteryInfoAux",
+        "fields": "[uavcan.Timestamp timestamp, float16[<=255] voltage_cell, uint16 cycle_count, uint16 over_discharge_count, float16 max_current, float16 nominal_voltage, bool is_powering_off, uint8 battery_id]"
+    },
+    {
+        "default_dtid": 20005,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.gnss.MovingBaselineData",
+        "fields": "[uint8[<=300] data]"
+    },
+    {
+        "default_dtid": 20006,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.gnss.RelPosHeading",
+        "fields": "[uavcan.Timestamp timestamp, bool reported_heading_acc_available, float32 reported_heading_deg, float32 reported_heading_acc_deg, float16 relative_distance_m, float16 relative_down_pos_m]"
+    },
+    {
+        "default_dtid": 20007,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.indication.NotifyState",
+        "fields": "[uint8 aux_data_type, uint8[<=255] aux_data, uint64 vehicle_state]"
+    },
+    {
+        "default_dtid": 20010,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.equipment.power.BatteryContinuous",
+        "fields": "[float16 temperature_cells, float16 temperature_pcb, float16 temperature_other, float32 current, float32 voltage, float16 state_of_charge, uint8 slot_id, float32 capacity_consumed, uint32 status_flags]"
+    },
+    {
+        "default_dtid": 20011,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.equipment.power.BatteryPeriodic",
+        "fields": "[uint8[<=50] name, uint8[<=32] serial_number, uint8[<=9] manufacture_date, float32 design_capacity, uint8 cells_in_series, float16 nominal_voltage, float16 discharge_minimum_voltage, float16 charging_minimum_voltage, float16 charging_maximum_voltage, float32 charging_maximum_current, float32 discharge_maximum_current, float32 discharge_maximum_burst_current, float32 full_charge_capacity, uint16 cycle_count, uint8 state_of_health]"
+    },
+    {
+        "default_dtid": 20012,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.equipment.power.BatteryCells",
+        "fields": "[float16[<=24] voltages, uint16 index]"
+    },
+    {
+        "default_dtid": 20013,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.hobbywing.esc.GetEscID",
+        "fields": "[uint8[<=3] payload]"
+    },
+    {
+        "default_dtid": 20020,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.volz.servo.ActuatorStatus",
+        "fields": "[uint8 actuator_id, float16 actual_position, uint8 current, uint8 voltage, uint8 motor_pwm, uint8 motor_temperature]"
+    },
+    {
+        "default_dtid": 20030,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.remoteid.BasicID",
+        "fields": "[uint8[<=20] id_or_mac, uint8 id_type, uint8 ua_type, uint8[<=20] uas_id]"
+    },
+    {
+        "default_dtid": 20031,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.remoteid.Location",
+        "fields": "[uint8[<=20] id_or_mac, uint8 status, uint16 direction, uint16 speed_horizontal, int16 speed_vertical, int32 latitude, int32 longitude, float32 altitude_barometric, float32 altitude_geodetic, uint8 height_reference, float32 height, uint8 horizontal_accuracy, uint8 vertical_accuracy, uint8 barometer_accuracy, uint8 speed_accuracy, float32 timestamp, uint8 timestamp_accuracy]"
+    },
+    {
+        "default_dtid": 20032,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.remoteid.SelfID",
+        "fields": "[uint8[<=20] id_or_mac, uint8 description_type, uint8[<=23] description]"
+    },
+    {
+        "default_dtid": 20033,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.remoteid.System",
+        "fields": "[uint8[<=20] id_or_mac, uint8 operator_location_type, uint8 classification_type, int32 operator_latitude, int32 operator_longitude, uint16 area_count, uint16 area_radius, float32 area_ceiling, float32 area_floor, uint8 category_eu, uint8 class_eu, float32 operator_altitude_geo, uint32 timestamp]"
+    },
+    {
+        "default_dtid": 20034,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.remoteid.OperatorID",
+        "fields": "[uint8[<=20] id_or_mac, uint8 operator_id_type, uint8[<=20] operator_id]"
+    },
+    {
+        "default_dtid": 20035,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "dronecan.remoteid.ArmStatus",
+        "fields": "[uint8 status, uint8[<=50] error]"
+    },
+    {
+        "default_dtid": 20050,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.hobbywing.esc.StatusMsg1",
+        "fields": "[uint16 rpm, uint16 pwm, uint16 status]"
+    },
+    {
+        "default_dtid": 20051,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.hobbywing.esc.StatusMsg2",
+        "fields": "[int16 input_voltage, int16 current, uint8 temperature]"
+    },
+    {
+        "default_dtid": 20052,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.hobbywing.esc.StatusMsg3",
+        "fields": "[uint8 MOS_T, uint8 CAP_T, uint8 Motor_T]"
+    },
+    {
+        "default_dtid": 20100,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.hobbywing.esc.RawCommand",
+        "fields": "[int14[<=8] command]"
+    },
+    {
+        "default_dtid": 20200,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.hex.equipment.flow.Measurement",
+        "fields": "[float32 integration_interval, float32[2] rate_gyro_integral, float32[2] flow_integral, uint8 quality]"
+    },
+    {
+        "default_dtid": 20305,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.xacti.GnssStatus",
+        "fields": "[uint8 gps_status, uint8 order, uint8 remain_buffer, uint16 utc_year, uint8 utc_month, uint8 utc_day, uint8 utc_hour, uint8 utc_minute, float32 utc_seconds, float64 latitude, float64 longitude, float32 altitude]"
+    },
+    {
+        "default_dtid": 20306,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.xacti.GnssStatusReq",
+        "fields": "[uint8 requirement]"
+    },
+    {
+        "default_dtid": 20402,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.xacti.GimbalAttitudeStatus",
+        "fields": "[int16 gimbal_roll, int16 gimbal_pitch, int16 gimbal_yaw, int16 magneticencoder_roll, int16 magneticencoder_pitch, int16 magneticencoder_yaw]"
+    },
+    {
+        "default_dtid": 20407,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.xacti.CopterAttStatus",
+        "fields": "[int16[4] quaternion_wxyz_e4, float16[<=2] reserved]"
+    },
+    {
+        "default_dtid": 20554,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "com.xacti.GimbalControlData",
+        "fields": "[uint8 pitch_cmd_type, uint8 yaw_cmd_type, uint16 pitch_cmd_value, uint16 yaw_cmd_value]"
+    },
+    {
+        "default_dtid": 20790,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.equipment.trafficmonitor.TrafficReport",
+        "fields": "[uavcan.Timestamp timestamp, uint32 icao_address, uint16 tslc, int32 latitude_deg_1e7, int32 longitude_deg_1e7, float32 alt_m, float16 heading, float16[3] velocity, uint16 squawk, uint8[9] callsign, uint3 source, uint5 traffic_type, uint7 alt_type, bool lat_lon_valid, bool heading_valid, bool velocity_valid, bool callsign_valid, bool ident_valid, bool simulated_report, bool vertical_velocity_valid, bool baro_valid]"
+    },
+    {
+        "default_dtid": 21910,
+        "kind": 1,
+        "kind_str": "Broadcast",
+        "full_name": "ardupilot.equipment.proximity_sensor.Proximity",
+        "fields": "[uint8 sensor_id, uint3 reading_type, uint5 flags, float16 yaw, float16 pitch, float16 distance]"
+    }
+]

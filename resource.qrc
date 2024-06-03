@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>dronecan.json</file>
+        <file>map_view.qml</file>
+    </qresource>
+</RCC>
