@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>map_view.qml</file>
-        <file>icons/map-marker-icon-342x512-gd1hf1rz.png</file>
-        <file>style.qss</file>
-        <file>Uavcan/dronecan.json</file>
-    </qresource>
-</RCC>
