@@ -9,7 +9,7 @@
 #include <QHBoxLayout>
 #include <QFrame>
 #include <QLabel>
-#include <QGraphicsDropShadowEffect>
+
 
 #include "udpwindow.h"
 #include "uavcanmonitor.h"
@@ -31,6 +31,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void openFile();
+    void saveFile();
+
 private slots:
     void createPlotterWindow();
     void createUavcanMonitorWindow();
@@ -45,6 +49,8 @@ private:
 
     QMenuBar *menuBar;
     QMenu *fileMenu;
+    QAction *openAction;
+    QAction *saveAction;
 
     QMenu *toolMenu;
     QAction *uavcan_monitor;

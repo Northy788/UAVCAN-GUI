@@ -25,18 +25,6 @@ UavcanDecoder::UavcanDecoder(QObject *parent) : QObject(parent)
     variable_type["s"] = 1;
     variable_type["l"] = 2;
     variable_type["le"] = 3;
-
-    dronecanNodeStatus["health"]["0"] = "OK";
-    dronecanNodeStatus["health"]["1"] = "WARNING";
-    dronecanNodeStatus["health"]["2"] = "ERROR";
-    dronecanNodeStatus["health"]["3"] = "CRITICAL";
-
-    dronecanNodeStatus["mode"]["0"] = "OPERATIONAL";
-    dronecanNodeStatus["mode"]["1"] = "INITIALIZATION";
-    dronecanNodeStatus["mode"]["2"] = "MAINTENANCE";
-    dronecanNodeStatus["mode"]["3"] = "SOFTWARE_UPDATE";
-    dronecanNodeStatus["mode"]["7"] = "OFFLINE";
-
 }
 
 QString UavcanDecoder::getProtocolType(QString protocol)
@@ -126,11 +114,8 @@ QString UavcanDecoder::getFields(QString datatype)
             // name:type normal:size=0
             QString name;
             if (variable_name[i].mid(0, 4) == "void")
-            {
-                name = "void";
-            }
-            else
-                name = variable_name[i].split(' ').at(1); // name
+                continue;
+            name = variable_name[i].split(' ').at(1); // name
             res = name + ":" + "n" + ":" + "0";
         }
         variableList.append(res);
@@ -148,12 +133,25 @@ int UavcanDecoder::getVariableType(QString type)
 
 QString UavcanDecoder::getDronecanHealth(QString status)
 {
-    return dronecanNodeStatus["health"][status];
+    switch (status.toInt()) {
+    case 0: return "OK";
+    case 1: return "WARNING";
+    case 2: return "ERROR";
+    case 3: return "CRITICAL";
+    }
+    return "INVALID";
 }
 
 QString UavcanDecoder::getDronecanMode(QString status)
 {
-    return dronecanNodeStatus["mode"][status];
+    switch (status.toInt()) {
+    case 0: return "OPERATIONAL";
+    case 1: return "INITIALIZATION";
+    case 2: return "MAINTENANCE";
+    case 3: return "SOFTWARE_UPDATE";
+    case 7: return "OFFLINE";
+    }
+    return "INVALID";
 }
 
 

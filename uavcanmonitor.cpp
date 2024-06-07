@@ -3,6 +3,7 @@
 UavcanMonitor::UavcanMonitor(QWidget *parent) : QWidget(parent)
 {
     setMinimumSize(1024, 600);
+    uavcan = new UavcanDecoder;
     horizontralLayout = new QHBoxLayout;
     verticalLayout = new QVBoxLayout;
 
@@ -14,7 +15,13 @@ UavcanMonitor::UavcanMonitor(QWidget *parent) : QWidget(parent)
     horizontralLayout->setStretchFactor(transferGroup, 1);
     setLayout(horizontralLayout);
 
-    uavcan = new UavcanDecoder;
+    // set Style sheet
+    QFile fileStyle(":/style.qss");
+    if(!fileStyle.open(QFile::ReadOnly))
+        qDebug() << "can't read file";
+    QString styleString = fileStyle.readAll();
+    fileStyle.close();
+    setStyleSheet(styleString);
 }
 
 void UavcanMonitor::createNodeTable()
@@ -32,10 +39,10 @@ void UavcanMonitor::createNodeTable()
     nodeTable->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     // Set fixed column widths for Node-ID, Uptime, Health, and Mode
-    nodeTable->setColumnWidth(0, 50); // Node-Id (adjust width as needed)
+    nodeTable->setColumnWidth(0, 70); // Node-Id (adjust width as needed)
     nodeTable->setColumnWidth(1, 70); // Uptime (adjust width as needed)
     nodeTable->setColumnWidth(2, 80); // Health (adjust width as needed)
-    nodeTable->setColumnWidth(3, 120); // Mode (adjust width as needed)
+    nodeTable->setColumnWidth(3, 100); // Mode (adjust width as needed)
 
 
     // Set horizontal header stretch for even distribution of remaining space
@@ -218,9 +225,7 @@ void UavcanMonitor::transfetDataUpdate(QString src, QString dst, QString protoco
 void UavcanMonitor::updateDetail(int row)
 {
     if (transferTable->rowCount() == 0)
-    {
         return;
-    }
     payloadDetails->clear();
     QString key = transferTable->item(row, 0)->text();
     QString index = transferTable->item(row, 3)->text();
@@ -228,49 +233,60 @@ void UavcanMonitor::updateDetail(int row)
     QVector<QString> variables =  uavcan->getFields(index).split(", ");
     payloadDetails->addItem(index);
     // qDebug() << "10";
-    int dataIndex = 0;
-
+    int data_index = 0;
+    int l_field = 0;
+    int le_field = 0;
     // combine between variable and value(from payload)
     for (int i = 0; i < variables.length(); i++)
     {
         QVector<QString> variable = variables[i].split(':');
         QString res;
-        switch (uavcan->getVariableType(variable.at(1))) {
-        case 0: // normal
-            res = variable.at(0) + ": ";
-            if (dataIndex < data.length())
-                res += data[dataIndex++];
-            break;
-        case 1: // static
-            res = variable.at(0) + "[" + variable.at(2) + "]" + ": ";
-            for (int s = 0; s < variable.at(2).toInt(); s++)
+        if (data_index < data.length()){
+            switch (uavcan->getVariableType(variable.at(1)))
             {
-                if (dataIndex < data.length())
+            case 0: // normal
+                res = variable.at(0) + ": " + data[data_index];
+                data_index++;
+                break;
+            case 1: // static
+                res = variable.at(0) + "[" + variable.at(2) + "]" + ": ";
+                for (int s = 0; s < variable.at(2).toInt(); s++)
                 {
-                    res += data[dataIndex++];
-                    if (s < variable.at(2).toInt() - 1)
-                        res += ", ";
+                    if (data_index < data.length())
+                    {
+                        res += data[data_index];
+                        if (s < variable.at(2).toInt() - 1)
+                            res += ", ";
+                        data_index++;
+                    }
                 }
-            }
-            break;
-        case 2: // lessthan
-            res = variable.at(0) + "[<" + variable.at(2) + "]" + ": ";
-            break;
-        case 3: // lessthan equal
-            res = variable.at(0) + "[<=" + variable.at(2) + "]" + ": ";
-            for (int le = 0; le < variable.at(2).toInt(); le++)
-            {
-                if (dataIndex < data.length())
+                break;
+            case 2: // lessthan
+                res = variable.at(0) + "[<" + variable.at(2) + "]" + ": ";
+                l_field = data[data_index++].toInt();
+                for (int l = 0; l < l_field; l++)
                 {
-                    res += data[dataIndex++];
-                    if (le < variable.at(2).toInt() - 1)
+                    res += data[data_index];
+                    if (l < l_field - 1)
                         res += ", ";
+                    data_index++;
                 }
+                break;
+            case 3: // lessthan equal
+                res = variable.at(0) + "[<=" + variable.at(2) + "]" + ": ";
+                le_field = data[data_index].toInt();
+                for (int le = 0; le < le_field; le++)
+                {
+                    res += data[data_index];
+                    if (le < le_field - 1)
+                        res += ", ";
+                    data_index++;
+                }
+                break;
             }
-            break;
+            payloadDetails->addItem(res);
+            }
         }
-        payloadDetails->addItem(res);
-    }
 }
 
 void UavcanMonitor::getSelectedRow(int row, int col)

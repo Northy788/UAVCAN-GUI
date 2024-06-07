@@ -45,6 +45,7 @@ void UdpWindow::createToolBox()
     groupFrame->setLayout(groupLayout);
 
     connect(button[0], &QPushButton::toggled, this, &UdpWindow::connected);
+    connect(button[1], &QPushButton::pressed, this, &UdpWindow::refresh);
 
     horizontralLayout->addWidget(groupFrame);
     horizontralLayout->setStretchFactor(groupFrame, 0);
@@ -167,16 +168,33 @@ void UdpWindow::connected(bool isConnected)
     {
         udpTable->clearContents();
         udpTable->setRowCount(0);
+        sourcePorts.clear();
+        destinationPorts.clear();
         int inf = interfaceBox->currentIndex();
         QString host_addr = networkInterface->getAvailableIPv4().at(inf);
         int host_port = portSpinBox->value();
+        interfaceBox->setEnabled(false);
+        portSpinBox->setEnabled(false);
+        button[1]->setEnabled(false);
         networkInterface->setUdpSocket(host_addr, host_port);
         networkInterface->startReceiveDatagram();
     }
     else
     {
         networkInterface->stopReceiveDatagram();
+        interfaceBox->setEnabled(true);
+        portSpinBox->setEnabled(true);
+        button[1]->setEnabled(true);
     }
+}
+
+void UdpWindow::refresh()
+{
+    update_interface();
+    udpTable->clearContents();
+    udpTable->setRowCount(0);
+    sourcePorts.clear();
+    destinationPorts.clear();
 }
 
 void UdpWindow::onSelectTable(int row, int col)
@@ -198,23 +216,102 @@ void UdpWindow::onSelectTable(int row, int col)
         prev_time = udpTable->item(row, 0)->text().toDouble() - udpTable->item(row - 1, 0)->text().toDouble();
         break;
     }
-    QString details = QString("Timestamp: %1 s\n Time since first frame: %2 s\n Time since previous frame: %3 s")
-                          .arg(timeItemText)
-                          .arg(timeItemText)
-                          .arg(QString::number(prev_time, 'f', 3));
+    QString details = QString("Timestamp: %1 s\n Time since first frame: %2 s\n Time since previous frame: %3 s").arg(timeItemText).arg(timeItemText).arg(QString::number(prev_time, 'f', 3));
     detailsList->addItem(details);
-    details = QString("Source IPv4: %1\nSource Port: %2")
-                  .arg(sourceItemText)
-                  .arg(sourcePorts.at(row));
+    details = QString("Source IPv4: %1\nSource Port: %2").arg(sourceItemText).arg(sourcePorts.at(row));
     detailsList->addItem(details);
-    details = QString("Destination IPv4: %1\nDestination Port: %2")
-                  .arg(destinationItemText)
-                  .arg(destinationPorts.at(row));
+    details = QString("Destination IPv4: %1\nDestination Port: %2").arg(destinationItemText).arg(destinationPorts.at(row));
     detailsList->addItem(details);
-    details = QString("Payload: %1 (%2 Bytes)")
-                  .arg(payloadItemText)
-                  .arg(QString::number(payloadItemText.length()));
+    details = QString("Payload: %1 (%2 Bytes)").arg(payloadItemText).arg(QString::number(payloadItemText.length()));
     detailsList->addItem(details);
 
     payloadDetail->setPlainText(payloadItemText);
 }
+
+void UdpWindow::openFile()
+{
+    if (button[0]->isChecked())
+        return ;
+    QString fileName = QFileDialog::getOpenFileName(this, "Open CSV File", "", "*.csv");
+
+    if (fileName.isEmpty()) {
+        qDebug() << "User canceled opening file.";
+        return ;
+    }
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Error opening file for reading:" << fileName;
+        // Handle error (optional: display message box)
+        return;
+    }
+    QTextStream in(&file);
+
+    // Optional: Read header row (if present)
+    QList<QString> headerRow;
+    if (!in.atEnd()) {
+        headerRow = in.readLine().split(',');
+    }
+    if (headerRow.isEmpty() && headerRow.count() != 6)
+        return ;
+
+    udpTable->clearContents();
+    udpTable->setRowCount(0);
+    sourcePorts.clear();
+    destinationPorts.clear();
+    // Read data rows
+    // QList<QList<QString>> data;
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        QList<QString> row = line.split(',');
+        int i = udpTable->rowCount();
+        udpTable->insertRow(i);
+        udpTable->setItem(i, 0, new QTableWidgetItem(row[0]));
+        udpTable->setItem(i, 1, new QTableWidgetItem(row[1]));
+        sourcePorts.append(row[2]);
+        udpTable->setItem(i, 2, new QTableWidgetItem(row[3]));
+        destinationPorts.append(row[4]);
+        udpTable->setItem(i, 3, new QTableWidgetItem(row[5]));
+    }
+
+    file.close();
+
+    // Process the data (header and rows) as needed
+    qDebug() << "CSV Data:";
+    qDebug() << "Header Row (if present):" << headerRow;
+    qDebug() << "Data Rows:";
+}
+
+
+void UdpWindow::saveFile()
+{
+    if (button[0]->isChecked())
+        return ;
+    QString fileName = QFileDialog::getSaveFileName(this, "Save File", QCoreApplication::applicationDirPath(), "*.csv");
+
+    if (fileName.isEmpty()) {
+        // User canceled the dialog
+        return;
+    }
+
+    QFile file(fileName + ".csv");
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << "Error opening file for writing:" << fileName;
+        // Handle error (e.g., display message box to user)
+        return;
+    }
+    QTextStream out(&file);
+    out << "Timestamp,SourceIP,SourcePort,DestinationIP,DestinationPort,Payload\n";
+    for (int i = 0; i < udpTable->rowCount(); i++)
+    {
+        QList<QString> data;
+        data.append(udpTable->item(i , 0)->text()); // timestamp
+        data.append(udpTable->item(i, 1)->text()); // src ip
+        data.append(sourcePorts[i]);
+        data.append(udpTable->item(i, 2)->text()); // dst ip
+        data.append(destinationPorts[i]); // dst port
+        data.append(udpTable->item(i, 3)->text()); // payload
+        out << data.join(',') << "\n";
+    }
+    file.close();
+}
+

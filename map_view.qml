@@ -1,12 +1,12 @@
 import QtQuick 2.15
 import QtLocation 6.7
 import QtPositioning 6.7
+import QtQuick.Controls.Fusion
 
-Rectangle {
+Item {
     id: window
     width:800
     height:600
-
     Plugin{
         id: mapPlugin
         name: "osm"
@@ -16,17 +16,19 @@ Rectangle {
             value: "https://tile.openstreetmap.org/"
         }
     }
+    // MainWindow{
+
+    // }
 
     Map {
         id: map
         anchors.fill: parent
         plugin: mapPlugin
         zoomLevel: 10
-        center: QtPositioning.coordinate(15.8700, 100.9925);
+        center:  QtPositioning.coordinate(gnssWindow.latitude, gnssWindow.longitude)
         activeMapType: map.supportedMapTypes[map.supportedMapTypes.length - 1]
         // GestureEvent: true
         property geoCoordinate startCentroid
-
         PinchHandler {
             id: pinch
             target: null
@@ -69,5 +71,24 @@ Rectangle {
             sequence: StandardKey.ZoomOut
             onActivated: map.zoomLevel = Math.round(map.zoomLevel - 1)
         }
+
+        MapQuickItem {
+            id: centerMarker
+            anchorPoint.x: markerImage.width / 2
+            anchorPoint.y: markerImage.height / 2
+            coordinate: QtPositioning.coordinate(gnssWindow.latitude, gnssWindow.longitude)
+
+            sourceItem: Image {
+                id: markerImage
+                source: "qrc:/icons/map-marker-icon-342x512-gd1hf1rz.png"  // Replace with the path to your marker image
+                width: 32
+                height: 32
+            }
+        }
+    }
+    Connections {
+            target: gnssWindow
+            onLatitudeChanged: map.center.latitude = gnssWindow.latitude
+            onLongitudeChanged: map.center.longitude = gnssWindow.longitude
     }
 }

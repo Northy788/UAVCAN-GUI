@@ -8,8 +8,6 @@ NetworkInterface::NetworkInterface(QObject *parent) : QObject(parent)
     // init udpsocket
     udpSocket = new QUdpSocket(this);
 
-    // init FIFO
-    // FIFO = new rxFIFO();
 
     connect(udpSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagram()));
 }

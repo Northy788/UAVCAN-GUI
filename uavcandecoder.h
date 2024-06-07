@@ -25,7 +25,7 @@ signals:
 private:
     QJsonDocument jsonDoc;
 
-    // map dtid to datatype
+    // map dtid to data type
     QMap<QString, QString> datatypeCache;
 
     // map dtid to field
@@ -35,12 +35,6 @@ private:
     QMap<QString, QString> variableCache;
 
     QMap<QString, int> variable_type;
-    QMap<QString, QMap<QString, QString>> dronecanNodeStatus;
-    QMap<QString, QMap<QString,QString>> cyphalNodeStatus;
-    // QMap<QString, >
-    // QString protocol;
-    // QString node_id;
-    // QString datatype;
 };
 
 #endif // UAVCANDECODER_H

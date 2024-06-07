@@ -15,6 +15,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Charts)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Positioning)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS QuickWidgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Qml)
+
 
 
 
@@ -62,6 +64,7 @@ target_link_libraries(uavcan_gui PRIVATE Qt${QT_VERSION_MAJOR}::Network)
 target_link_libraries(uavcan_gui PRIVATE Qt${QT_VERSION_MAJOR}::Charts)
 target_link_libraries(uavcan_gui PRIVATE Qt${QT_VERSION_MAJOR}::Positioning)
 target_link_libraries(uavcan_gui PRIVATE Qt${QT_VERSION_MAJOR}::QuickWidgets)
+target_link_libraries(uavcan_gui PRIVATE Qt${QT_VERSION_MAJOR}::Qml)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

@@ -102,6 +102,7 @@ Plotter::Plotter(QWidget *parent) : QWidget(parent)
     verticalLayout->setSpacing(0);
     verticalLayout->setStretchFactor(chartView, 1);
     setLayout(verticalLayout);
+
 }
 
 void Plotter::updatePlot()

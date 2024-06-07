@@ -16,8 +16,11 @@
 #include <QTextEdit>
 #include <QHeaderView>
 #include <QVector>
+#include <QFileDialog>
+#include <QCoreApplication>
 
 #include "networkinterface.h"
+
 
 class UdpWindow : public QWidget
 {
@@ -28,10 +31,15 @@ public:
 signals:
     void udpReceived(QString);
 
+public slots:
+    void openFile();
+    void saveFile();
+
 private slots:
     void updateTable();
     void onSelectTable(int, int);
     void connected(bool);
+    void refresh();
 
 private:
     void createToolBox();
