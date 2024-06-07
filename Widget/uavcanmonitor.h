@@ -11,7 +11,7 @@
 #include <QDateTime>
 #include <QTime>
 
-#include "uavcandecoder.h"
+#include "../Uavcan/uavcandecoder.h"
 
 class UavcanMonitor : public QWidget
 {

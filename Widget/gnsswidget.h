@@ -26,7 +26,7 @@
 #include <QTableWidgetItem>
 
 
-#include "uavcandecoder.h"
+#include "../Uavcan/uavcandecoder.h"
 
 class GNSSWidget : public QWidget
 {

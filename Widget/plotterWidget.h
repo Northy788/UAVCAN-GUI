@@ -17,7 +17,7 @@
 #include <QScatterSeries>
 #include <QCheckBox>
 
-#include "uavcandecoder.h"
+#include "../Uavcan/uavcandecoder.h"
 
 class Plotter : public QWidget
 {

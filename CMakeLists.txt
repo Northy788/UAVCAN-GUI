@@ -31,13 +31,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(uavcan_gui
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        udpwindow.h udpwindow.cpp
+
         networkinterface.h networkinterface.cpp
-        plotterWidget.h plotterWidget.cpp
-        uavcandecoder.h uavcandecoder.cpp
-        uavcanmonitor.h uavcanmonitor.cpp
+        Uavcan/uavcandecoder.h Uavcan/uavcandecoder.cpp
+        Widget/plotterWidget.h Widget/plotterWidget.cpp
+        Widget/udpwindow.h Widget/udpwindow.cpp
+        Widget/gnsswidget.h Widget/gnsswidget.cpp
+        Widget/uavcanmonitor.h Widget/uavcanmonitor.cpp
         resource.qrc
-        gnsswidget.h gnsswidget.cpp
+
 
 
     )

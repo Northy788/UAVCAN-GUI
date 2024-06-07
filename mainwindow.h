@@ -11,10 +11,10 @@
 #include <QLabel>
 
 
-#include "udpwindow.h"
-#include "uavcanmonitor.h"
-#include "plotterWidget.h"
-#include "gnsswidget.h"
+#include "Widget/udpwindow.h"
+#include "Widget/uavcanmonitor.h"
+#include "Widget/plotterWidget.h"
+#include "Widget/gnsswidget.h"
 
 
 QT_BEGIN_NAMESPACE

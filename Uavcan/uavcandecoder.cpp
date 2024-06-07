@@ -2,7 +2,7 @@
 
 UavcanDecoder::UavcanDecoder(QObject *parent) : QObject(parent)
 {
-    QFile file(":/dronecan.json");
+    QFile file(":/Uavcan/dronecan.json");
     if (!file.open(QIODevice::ReadOnly))
     {
         // open file error

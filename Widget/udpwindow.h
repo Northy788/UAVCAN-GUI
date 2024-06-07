@@ -19,7 +19,7 @@
 #include <QFileDialog>
 #include <QCoreApplication>
 
-#include "networkinterface.h"
+#include "../networkinterface.h"
 
 
 class UdpWindow : public QWidget
